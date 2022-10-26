@@ -19,6 +19,9 @@ void close();
 
 //Declares the window and the screen that the items will be drawn to
 SDL_Window* window = NULL;
+SDL_Renderer* cRenderer = NULL;
+SDL_Texture* cTexture = NULL;
+SDL_Surface* testSurface = NULL;
 SDL_Surface*playerScreen = NULL;
 SDL_Surface* enemyScreen = NULL;
 SDL_Rect* player;
@@ -39,6 +42,9 @@ bool init() {
 			success = false;
 		}
 		else {
+			cRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			SDL_SetRenderDrawColor(cRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			int imgFlags = IMG_INIT_PNG;
 			playerScreen = SDL_GetWindowSurface(window);
 			enemyScreen = SDL_GetWindowSurface(window);
 			if (playerScreen == NULL || enemyScreen == NULL) {
@@ -77,12 +83,17 @@ int main(int argc, char* args[]) {
 		enemy.renderEnemy(enemyScreen);
 		SDL_UpdateWindowSurface(window);
 		bool quit = false;
+		SDL_Event playerInput;
 		while (!quit) {
-			SDL_Event playerInput;
-			while(SDL_PollEvent(&playerInput)){
-				player.handleEvent(playerInput);
-				player.move(playerScreen, playerRender);
-				SDL_UpdateWindowSurface(window);
+			while(SDL_PollEvent(&playerInput) != 0){
+				if (playerInput.type == SDL_QUIT) {
+					quit = true;
+				}
+				else {
+					player.handleEvent(playerInput);
+					player.move(playerScreen, playerRender);
+					SDL_UpdateWindowSurface(window);
+				}
 			}
 		}
 		
