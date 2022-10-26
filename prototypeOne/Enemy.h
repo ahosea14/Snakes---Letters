@@ -10,14 +10,17 @@ public:
 	static const int ENEMY_HEIGHT = 30;
 
 	//Initializes the enemy
-	Enemy(int posX, int posY);
+	Enemy();
 
 	//Renders the enemy
-	void render();
+	void renderEnemy(SDL_Surface* screen);
 
 private:
 	//Enemy x and y offset
 	int mPosX, mPosY;
+
+	//Number of enemies to render
+	int numEnemies = 5;
 
 };
 

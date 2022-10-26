@@ -19,10 +19,13 @@ public:
 	void handleEvent(SDL_Event& e);
 
 	//Moves the snake
-	void move();
+	void move(SDL_Surface* screen, SDL_Rect* player);
 
 	//Renders the snake
-	void render();
+	SDL_Rect* renderPlayer(SDL_Surface* screen);
+
+	//Sends the snake back to the original starting position
+	bool restartPlayer(SDL_Surface* screen, SDL_Rect* player);
 
 private:
 	//Snake x and y offset
