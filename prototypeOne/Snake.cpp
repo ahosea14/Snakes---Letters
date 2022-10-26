@@ -1,8 +1,7 @@
-#include "Snake.h"
-#include "Application.h"
 #include <SDL.h>
 #include <stdio.h>
-
+#include "Snake.h"
+#include "Application.h"
 
 Snake::Snake() {
 	//Initialize offsets
