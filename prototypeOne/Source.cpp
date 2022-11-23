@@ -13,7 +13,7 @@ int main(int argc, char* args[]) {
 		printf("Failed to initialize. SDL_Error: %s\n", SDL_GetError());
 	}
 	else {
-		game.startGame(game);
+		game.startGame();
 	}
 	game.close();
 	return 0;

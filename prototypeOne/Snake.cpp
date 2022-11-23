@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <stdio.h>
+#include <SDL_image.h>
 #include "Snake.h"
 #include "Application.h"
 
@@ -34,29 +35,29 @@ void Snake::handleEvent(SDL_Event& e) {
 }
 
 //moves the snake and calls reset function if the snake hits the edge of the screen
-void Snake::move(SDL_Surface* screen, SDL_Rect* player) {
+void Snake::move(SDL_Renderer* ren, SDL_Rect* player, SDL_Texture* playerTex) {
 	//set position to move player
 	mPosX += mVelX;
 	mPosY += mVelY;
 
 	//check if player hit wall
 	if (mPosX < 0 || mPosX + SNAKE_WIDTH > SCREEN_WIDTH || mPosY < 0 || mPosY + SNAKE_HEIGHT > SCREEN_HEIGHT) {
-		restartPlayer(screen, player);
+		restartPlayer(ren, player, playerTex);
 	}
 	else {
-		SDL_FillRect(screen, player, 0000);
+		//SDL_RenderClear(ren);
 		player->x = mPosX;
 		player->y = mPosY;
-		SDL_FillRect(screen, player, 0xFF0000FF);
+		SDL_RenderCopy(ren, playerTex, NULL, player);
 	}
 }
 
 //initial rendering function for the snake
-SDL_Rect* Snake::renderPlayer(SDL_Surface* screen) {
+SDL_Rect* Snake::renderPlayer(SDL_Renderer* ren, SDL_Texture* playerTex) {
 	SDL_Rect* snakePlayer = new SDL_Rect{ mPosX, mPosY, SNAKE_WIDTH, SNAKE_HEIGHT };
 	bool success = true;
 
-	if (screen == NULL) {
+	if (ren == NULL) {
 		printf("screen not displaying on create player method");
 		success = false;
 	}
@@ -65,16 +66,16 @@ SDL_Rect* Snake::renderPlayer(SDL_Surface* screen) {
 			printf("player is null");
 		}
 		else {
-			SDL_FillRect(screen, snakePlayer, 0xFF0000FF);
+			SDL_RenderCopy(ren, playerTex, NULL, snakePlayer);
 		}
 	}
 	return snakePlayer;
 }
 
 //function to restart the player
-bool Snake::restartPlayer(SDL_Surface* screen, SDL_Rect* player) {
+bool Snake::restartPlayer(SDL_Renderer* ren, SDL_Rect* player, SDL_Texture* playerTex) {
 	bool success = true;
-	SDL_FillRect(screen, player, 0000);
+	//SDL_RenderClear(ren);
 	mPosX = SCREEN_WIDTH / 2;
 	mPosY = SCREEN_HEIGHT / 2;
 
@@ -85,7 +86,7 @@ bool Snake::restartPlayer(SDL_Surface* screen, SDL_Rect* player) {
 	else {
 		player->x = mPosX;
 		player->y = mPosY;
-		SDL_FillRect(screen, player, 0xFF0000FF);
+		SDL_RenderCopy(ren, playerTex, NULL, player);
 	}
 	return success;
 }

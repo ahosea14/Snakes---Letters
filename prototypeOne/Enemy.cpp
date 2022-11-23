@@ -10,16 +10,20 @@ Enemy::Enemy() {
 }
 
 //creates the enemy rectangle and stores the location of each rectangle in a nested array
-void Enemy::renderEnemy(SDL_Surface* screen) {
-	for (int i = 1; i <= numEnemies; i++) {
+void Enemy::startEnemy(SDL_Renderer* ren, SDL_Texture* enemyTex) {
+	for (int i = 0; i <= numEnemies; i++) {
 		SDL_Rect* enemy = new SDL_Rect{ (rand() % (640 - ENEMY_WIDTH)), (rand() % (480 - ENEMY_HEIGHT)), ENEMY_WIDTH, ENEMY_HEIGHT };
-		SDL_FillRect(screen, enemy, 0xFF0000FF);
+		enemies[i][0] = enemy->x;
+		enemies[i][1] = enemy->y;
+		SDL_RenderCopy(ren, enemyTex, NULL, enemy);
+		SDL_RenderPresent(ren);
 	}
 }
 
- SDL_Texture* Enemy::loadEnemyMedia(SDL_Renderer* renderer) {
-	SDL_Surface* surface = IMG_Load("letters/ScrittaA1.png");
-	SDL_Texture* letterA_Texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-	return letterA_Texture;
+void Enemy::renderEnemy(SDL_Renderer* ren, SDL_Texture* enemyTex) {
+	for (int i = 0; i <= numEnemies; i++) {
+		SDL_Rect* enemy = new SDL_Rect{ enemies[i][0], enemies[i][1], ENEMY_WIDTH, ENEMY_HEIGHT };
+		SDL_RenderCopy(ren, enemyTex, NULL, enemy);
+		SDL_RenderPresent(ren);
+	}
 }

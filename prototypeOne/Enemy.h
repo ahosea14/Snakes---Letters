@@ -18,12 +18,15 @@ public:
 	Enemy();
 
 	//Renders the enemy
-	void renderEnemy(SDL_Surface* screen);
+	void startEnemy(SDL_Renderer* ren, SDL_Texture* enemyTex);
 
-	SDL_Texture* loadEnemyMedia(SDL_Renderer* renderer);
+	void renderEnemy(SDL_Renderer* ren, SDL_Texture* enemyTex);
 
 private:
 	//Enemy x and y offset
 	int mPosX, mPosY;
+
+	//Allocated to hold the x and y coordinates of the enemies 
+	int  enemies[numEnemies][2];
 };
 
